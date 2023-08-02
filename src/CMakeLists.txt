@@ -3,6 +3,8 @@ set(PROJECT_SOURCES
         widget.cpp
         widget.h
         widget.ui
+        textdocument.cpp
+        textdocument.h
 )
 
 qt_add_executable(${PROJECT_NAME}
