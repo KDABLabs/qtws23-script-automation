@@ -2,11 +2,14 @@
 
 #include <QWidget>
 
-QT_BEGIN_NAMESPACE
+#include <memory>
+
+class TextDocument;
+class ScriptRunner;
+
 namespace Ui {
 class Widget;
 }
-QT_END_NAMESPACE
 
 class Widget : public QWidget
 {
@@ -16,6 +19,10 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    void run();
+
 private:
     Ui::Widget *ui;
+    std::unique_ptr<TextDocument> m_document;
+    std::unique_ptr<ScriptRunner> m_scritpRunner;
 };

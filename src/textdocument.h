@@ -3,19 +3,24 @@
 #include <QObject>
 #include <QPointer>
 #include <QTextCursor>
+#include <QQmlEngine>
 
 class QPlainTextEdit;
 
 class TextDocument : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
     Q_PROPERTY(QString currentWord READ currentWord NOTIFY positionChanged)
     Q_PROPERTY(QString selectedText READ selectedText NOTIFY selectionChanged)
 
 public:
-    TextDocument(QPlainTextEdit *parent = nullptr);
+    TextDocument(QPlainTextEdit *textEdit, QObject *parent = nullptr);
     ~TextDocument();
+
+    static TextDocument *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
     QString currentWord() const;
     QString selectedText() const;
@@ -71,4 +76,5 @@ private:
                       int count = 1);
 
     QPointer<QPlainTextEdit> m_document;
+    inline static TextDocument *m_instance;
 };

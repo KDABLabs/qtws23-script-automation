@@ -2,17 +2,24 @@
 
 #include <QPlainTextEdit>
 
-TextDocument::TextDocument(QPlainTextEdit *parent)
+TextDocument::TextDocument(QPlainTextEdit *textEdit, QObject *parent)
     : QObject(parent)
-    , m_document(parent)
+    , m_document(textEdit)
 {
-    Q_ASSERT(parent);
+    Q_ASSERT(textEdit);
     connect(m_document, &QPlainTextEdit::selectionChanged, this, &TextDocument::selectionChanged);
     connect(m_document, &QPlainTextEdit::cursorPositionChanged, this, &TextDocument::positionChanged);
     m_document->installEventFilter(this);
+    m_instance = this;
 }
 
 TextDocument::~TextDocument() = default;
+
+TextDocument *TextDocument::create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
+{
+    QJSEngine::setObjectOwnership(m_instance, QJSEngine::CppOwnership);
+    return m_instance;
+}
 
 QString TextDocument::currentWord() const
 {

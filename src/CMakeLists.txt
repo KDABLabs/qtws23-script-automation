@@ -3,6 +3,8 @@ set(PROJECT_SOURCES
         widget.cpp
         widget.h
         widget.ui
+        scriptrunner.cpp
+        scriptrunner.h
         textdocument.cpp
         textdocument.h
 )
@@ -12,9 +14,18 @@ qt_add_executable(${PROJECT_NAME}
     ${PROJECT_SOURCES}
 )
 
+qt_add_qml_module(${PROJECT_NAME}
+URI com.kdab.script
+VERSION 1.0
+SOURCES
+    textdocument.cpp textdocument.h
+)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt${QT_VERSION_MAJOR}::Core
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Qml
+    Qt${QT_VERSION_MAJOR}::QmlPrivate
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
