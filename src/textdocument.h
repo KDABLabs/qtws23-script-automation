@@ -22,6 +22,8 @@ public:
 
     static TextDocument *create(QQmlEngine *qmlEngine, QJSEngine *jsEngine);
 
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
     QString currentWord() const;
     QString selectedText() const;
     bool hasSelection() const;

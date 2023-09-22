@@ -1,6 +1,7 @@
 #include "textdocument.h"
 
 #include <QPlainTextEdit>
+#include <private/qwidgettextcontrol_p.h>
 
 TextDocument::TextDocument(QPlainTextEdit *textEdit, QObject *parent)
     : QObject(parent)
@@ -277,4 +278,80 @@ bool TextDocument::find(const QString &text)
 {
     qDebug() << "TextDocument::find" << text;
     return m_document->find(text);
+}
+
+bool TextDocument::eventFilter(QObject *watched, QEvent *event)
+{
+    Q_ASSERT(watched == m_document);
+
+    if (event->type() == QEvent::KeyPress) {
+        auto keyEvent = static_cast<QKeyEvent *>(event);
+
+        if (keyEvent == QKeySequence::MoveToNextChar)
+            gotoNextChar();
+        else if (keyEvent == QKeySequence::MoveToPreviousChar)
+            gotoPreviousChar();
+        else if (keyEvent == QKeySequence::SelectNextChar)
+            selectNextChar();
+        else if (keyEvent == QKeySequence::SelectPreviousChar)
+            selectPreviousChar();
+        else if (keyEvent == QKeySequence::SelectNextWord)
+            selectNextWord();
+        else if (keyEvent == QKeySequence::SelectPreviousWord)
+            selectPreviousWord();
+        else if (keyEvent == QKeySequence::SelectStartOfLine)
+            selectStartOfLine();
+        else if (keyEvent == QKeySequence::SelectEndOfLine)
+            selectEndOfLine();
+        else if (keyEvent == QKeySequence::SelectPreviousLine)
+            selectPreviousLine();
+        else if (keyEvent == QKeySequence::SelectNextLine)
+            selectNextLine();
+        else if (keyEvent == QKeySequence::MoveToNextWord)
+            gotoNextWord();
+        else if (keyEvent == QKeySequence::MoveToPreviousWord)
+            gotoPreviousWord();
+        else if (keyEvent == QKeySequence::MoveToNextLine)
+            gotoNextLine();
+        else if (keyEvent == QKeySequence::MoveToPreviousLine)
+            gotoPreviousLine();
+        else if (keyEvent == QKeySequence::MoveToStartOfLine)
+            gotoStartOfLine();
+        else if (keyEvent == QKeySequence::MoveToEndOfLine)
+            gotoEndOfLine();
+        else if (keyEvent == QKeySequence::MoveToStartOfDocument)
+            gotoStartOfDocument();
+        else if (keyEvent == QKeySequence::MoveToEndOfDocument)
+            gotoEndOfDocument();
+        else if (keyEvent == QKeySequence::MoveToNextPage)
+            return false;
+        else if (keyEvent == QKeySequence::MoveToPreviousPage)
+            return false;
+        else if (keyEvent == QKeySequence::Delete)
+            m_document->textCursor().hasSelection() ? deleteSelection() : deleteNextCharacter();
+        else if (keyEvent == QKeySequence::Backspace
+                 || (keyEvent->key() == Qt::Key_Backspace
+                     && !(keyEvent->modifiers() & ~Qt::ShiftModifier))) // test is coming from QTextWidgetControl
+            m_document->textCursor().hasSelection() ? deleteSelection() : deletePreviousCharacter();
+        else if (keyEvent == QKeySequence::InsertParagraphSeparator)
+            insert("\n");
+        else if (keyEvent == QKeySequence::InsertLineSeparator)
+            insert(QString(QChar::LineSeparator));
+        else if (keyEvent == QKeySequence::DeleteEndOfWord)
+            deleteEndOfWord();
+        else if (keyEvent == QKeySequence::DeleteStartOfWord)
+            deleteStartOfWord();
+        else if (keyEvent == QKeySequence::DeleteEndOfLine)
+            deleteEndOfLine();
+        else if (keyEvent == QKeySequence::SelectAll)
+            selectAll();
+        else if (!keyEvent->text().isEmpty()) {
+            auto control = m_document->findChild<QWidgetTextControl *>();
+            if (control->isAcceptableInput(keyEvent))
+                insert(keyEvent->text());
+        }
+
+        return true;
+    }
+    return QObject::eventFilter(watched, event);
 }
