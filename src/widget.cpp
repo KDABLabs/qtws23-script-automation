@@ -8,6 +8,7 @@ Widget::Widget(QWidget *parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    s_debugView = ui->debugView;
     m_document.reset(new TextDocument(ui->editor));
     m_scritpRunner.reset(new ScriptRunner(m_document.get()));
 
