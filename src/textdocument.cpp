@@ -1,5 +1,7 @@
 #include "textdocument.h"
 
+#include "logger.h"
+
 #include <QPlainTextEdit>
 #include <private/qwidgettextcontrol_p.h>
 
@@ -24,7 +26,7 @@ TextDocument *TextDocument::create(QQmlEngine *qmlEngine, QJSEngine *jsEngine)
 
 QString TextDocument::currentWord() const
 {
-    qDebug() << "TextDocument::currentWord";
+    LOG("TextDocument::currentWord");
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::StartOfWord);
     cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
@@ -33,7 +35,7 @@ QString TextDocument::currentWord() const
 
 QString TextDocument::selectedText() const
 {
-    qDebug() << "TextDocument::selectedText";
+    LOG("TextDocument::selectedText");
     // Replace \u2029 with \n
     const QString text = m_document->textCursor().selectedText().replace(QChar(8233), "\n");
     return text;
@@ -53,79 +55,79 @@ void TextDocument::movePosition(QTextCursor::MoveOperation operation, QTextCurso
 
 void TextDocument::gotoStartOfLine()
 {
-    qDebug() << "TextDocument::gotoStartOfLine";
+    LOG("TextDocument::gotoStartOfLine");
     movePosition(QTextCursor::StartOfLine);
 }
 
 void TextDocument::gotoEndOfLine()
 {
-    qDebug() << "TextDocument::gotoEndOfLine";
+    LOG("TextDocument::gotoEndOfLine");
     movePosition(QTextCursor::EndOfLine);
 }
 
 void TextDocument::gotoStartOfWord()
 {
-    qDebug() << "TextDocument::gotoStartOfWord";
+    LOG("TextDocument::gotoStartOfWord");
     movePosition(QTextCursor::StartOfWord);
 }
 
 void TextDocument::gotoEndOfWord()
 {
-    qDebug() << "TextDocument::gotoEndOfWord";
+    LOG("TextDocument::gotoEndOfWord");
     movePosition(QTextCursor::EndOfWord);
 }
 
 void TextDocument::gotoNextLine(int count)
 {
-    qDebug() << "TextDocument::gotoNextLine" << count;
+    LOG("TextDocument::gotoNextLine", count);
     movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoPreviousLine(int count)
 {
-    qDebug() << "TextDocument::gotoPreviousLine" << count;
+    LOG("TextDocument::gotoPreviousLine", count);
     movePosition(QTextCursor::Up, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoPreviousChar(int count)
 {
-    qDebug() << "TextDocument::gotoPreviousChar" << count;
+    LOG("TextDocument::gotoPreviousChar", count);
     movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoNextChar(int count)
 {
-    qDebug() << "TextDocument::gotoNextChar" << count;
+    LOG("TextDocument::gotoNextChar", count);
     movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoPreviousWord(int count)
 {
-    qDebug() << "TextDocument::gotoPreviousWord" << count;
+    LOG("TextDocument::gotoPreviousWord", count);
     movePosition(QTextCursor::PreviousWord, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoNextWord(int count)
 {
-    qDebug() << "TextDocument::gotoNextWord" << count;
+    LOG("TextDocument::gotoNextWord", count);
     movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoStartOfDocument()
 {
-    qDebug() << "TextDocument::gotoStartOfDocument";
+    LOG("TextDocument::gotoStartOfDocument");
     movePosition(QTextCursor::Start);
 }
 
 void TextDocument::gotoEndOfDocument()
 {
-    qDebug() << "TextDocument::gotoEndOfDocument";
+    LOG("TextDocument::gotoEndOfDocument");
     movePosition(QTextCursor::End);
 }
 
 void TextDocument::unselect()
 {
-    qDebug() << "TextDocument::unselect";
+    LOG("TextDocument::unselect");
     QTextCursor cursor = m_document->textCursor();
     cursor.clearSelection();
     m_document->setTextCursor(cursor);
@@ -133,73 +135,73 @@ void TextDocument::unselect()
 
 void TextDocument::selectAll()
 {
-    qDebug() << "TextDocument::selectAll";
+    LOG("TextDocument::selectAll");
     m_document->selectAll();
 }
 
 void TextDocument::selectStartOfLine()
 {
-    qDebug() << "TextDocument::selectStartOfLine";
+    LOG("TextDocument::selectStartOfLine");
     movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
 }
 
 void TextDocument::selectEndOfLine()
 {
-    qDebug() << "TextDocument::selectEndOfLine";
+    LOG("TextDocument::selectEndOfLine");
     movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
 }
 
 void TextDocument::selectStartOfWord()
 {
-    qDebug() << "TextDocument::selectStartOfWord";
+    LOG("TextDocument::selectStartOfWord");
     movePosition(QTextCursor::StartOfWord, QTextCursor::KeepAnchor);
 }
 
 void TextDocument::selectEndOfWord()
 {
-    qDebug() << "TextDocument::selectEndOfWord";
+    LOG("TextDocument::selectEndOfWord");
     movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
 }
 
 void TextDocument::selectNextLine(int count)
 {
-    qDebug() << "TextDocument::selectNextLine" << count;
+    LOG("TextDocument::selectNextLine", count);
     movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectPreviousLine(int count)
 {
-    qDebug() << "TextDocument::selectPreviousLine" << count;
+    LOG("TextDocument::selectPreviousLine", count);
     movePosition(QTextCursor::Up, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectPreviousChar(int count)
 {
-    qDebug() << "TextDocument::selectPreviousChar" << count;
+    LOG("TextDocument::selectPreviousChar", count);
     movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectNextChar(int count)
 {
-    qDebug() << "TextDocument::selectNextChar" << count;
+    LOG("TextDocument::selectNextChar", count);
     movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectPreviousWord(int count)
 {
-    qDebug() << "TextDocument::selectPreviousWord" << count;
+    LOG("TextDocument::selectPreviousWord", count);
     movePosition(QTextCursor::PreviousWord, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectNextWord(int count)
 {
-    qDebug() << "TextDocument::selectNextWord" << count;
+    LOG("TextDocument::selectNextWord", count);
     movePosition(QTextCursor::NextWord, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::remove(int length)
 {
-    qDebug() << "TextDocument::remove" << length;
+    LOG("TextDocument::remove", length);
     QTextCursor cursor = m_document->textCursor();
     cursor.setPosition(cursor.position() + length, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
@@ -208,19 +210,19 @@ void TextDocument::remove(int length)
 
 void TextDocument::insert(const QString &text)
 {
-    qDebug() << "TextDocument::insert" << text;
+    LOG("TextDocument::insert", text);
     m_document->insertPlainText(text);
 }
 
 void TextDocument::deleteSelection()
 {
-    qDebug() << "TextDocument::deleteSelection";
+    LOG("TextDocument::deleteSelection");
     m_document->textCursor().removeSelectedText();
 }
 
 void TextDocument::deleteEndOfLine()
 {
-    qDebug() << "TextDocument::deleteEndOfLine";
+    LOG("TextDocument::deleteEndOfLine");
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::EndOfLine, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
@@ -229,7 +231,7 @@ void TextDocument::deleteEndOfLine()
 
 void TextDocument::deleteStartOfLine()
 {
-    qDebug() << "TextDocument::deleteStartOfLine";
+    LOG("TextDocument::deleteStartOfLine");
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::StartOfLine, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
@@ -238,7 +240,7 @@ void TextDocument::deleteStartOfLine()
 
 void TextDocument::deleteEndOfWord()
 {
-    qDebug() << "TextDocument::deleteEndOfWord";
+    LOG("TextDocument::deleteEndOfWord");
     QTextCursor cursor = m_document->textCursor();
     if (!cursor.hasSelection())
         cursor.movePosition(QTextCursor::NextWord, QTextCursor::KeepAnchor);
@@ -248,7 +250,7 @@ void TextDocument::deleteEndOfWord()
 
 void TextDocument::deleteStartOfWord()
 {
-    qDebug() << "TextDocument::deleteStartOfWord";
+    LOG("TextDocument::deleteStartOfWord");
     QTextCursor cursor = m_document->textCursor();
     if (!cursor.hasSelection())
         cursor.movePosition(QTextCursor::PreviousWord, QTextCursor::KeepAnchor);
@@ -258,7 +260,7 @@ void TextDocument::deleteStartOfWord()
 
 void TextDocument::deletePreviousCharacter(int count)
 {
-    qDebug() << "TextDocument::deletePreviousCharacter" << count;
+    LOG("TextDocument::deletePreviousCharacter", count);
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, count);
     cursor.removeSelectedText();
@@ -267,7 +269,7 @@ void TextDocument::deletePreviousCharacter(int count)
 
 void TextDocument::deleteNextCharacter(int count)
 {
-    qDebug() << "TextDocument::deleteNextCharacter" << count;
+    LOG("TextDocument::deleteNextCharacter", count);
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, count);
     cursor.removeSelectedText();
@@ -276,7 +278,7 @@ void TextDocument::deleteNextCharacter(int count)
 
 bool TextDocument::find(const QString &text)
 {
-    qDebug() << "TextDocument::find" << text;
+    LOG("TextDocument::find", text);
     return m_document->find(text);
 }
 
