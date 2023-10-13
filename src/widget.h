@@ -21,6 +21,9 @@ public:
     ~Widget();
 
     void run();
+    void openFind();
+    void closeFind();
+    void find();
 
     static QPlainTextEdit *debugView() { return s_debugView; }
 
@@ -29,4 +32,7 @@ private:
     std::unique_ptr<TextDocument> m_document;
     std::unique_ptr<ScriptRunner> m_scritpRunner;
     static inline QPlainTextEdit *s_debugView = nullptr;
+    QString m_defaultFindText;
+    bool m_defaultFindIsSelection = false;
+    bool m_firstFind = false;
 };

@@ -21,26 +21,65 @@
   <layout class="QGridLayout" name="gridLayout_3">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string>Editor</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0" colspan="2">
+      <item row="1" column="1">
+       <widget class="QWidget" name="findWidget" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Find:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="findEdit"/>
+         </item>
+         <item>
+          <widget class="QToolButton" name="findNextButton">
+           <property name="text">
+            <string>next</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="3">
        <widget class="QPlainTextEdit" name="editor">
         <property name="plainText">
-         <string/>
+         <string>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ut urna fermentum, dictum justo vitae, posuere est. Praesent blandit imperdiet fringilla. Aenean tincidunt urna vitae odio molestie, sit amet laoreet diam euismod. Suspendisse non turpis sit amet magna ornare posuere id eget quam. Fusce tristique maximus tortor, nec hendrerit arcu aliquet et. In nisl lacus, luctus eget justo ut, luctus iaculis metus. Nunc eget luctus mauris.
+
+Aenean sapien ligula, commodo nec nisl ac, luctus semper tellus. Nunc vel posuere justo. Morbi eu risus rhoncus, ultrices tortor nec, fermentum justo. Fusce libero metus, dignissim nec purus sed, consectetur dictum elit. Vivamus dui orci, luctus eget sodales eu, dictum in turpis. Sed aliquet urna volutpat ultricies blandit. Curabitur ornare mauris a dui egestas, vitae molestie ante volutpat. Donec lobortis vel ante at ornare. Nulla ligula mauris, semper pellentesque dapibus in, molestie quis ante. Aenean quis erat arcu. Nulla et ante nec mi posuere maximus eu in tortor. Etiam tincidunt augue varius odio interdum, ut lobortis enim interdum. Sed vel tellus interdum, varius dolor id, aliquet est.
+
+Sed in leo vitae enim semper tempus eu et urna. Maecenas lectus nunc, congue eget luctus sit amet, pulvinar quis ex. Aenean molestie rutrum blandit. Pellentesque in nisi ut eros ornare tristique. Aliquam finibus, mi non varius ultricies, lectus nisi ullamcorper velit, in vestibulum enim ipsum in elit. Nam bibendum tempor risus, vel volutpat mi commodo vel. Sed ac ullamcorper sem. Nulla commodo justo sed sollicitudin tincidunt. Fusce in ex sed sem lobortis volutpat eu ac turpis. Curabitur quis fringilla erat.
+
+Suspendisse nisi nibh, volutpat et erat eu, cursus dignissim tortor. Quisque eu hendrerit elit. Integer luctus vulputate nunc, et pulvinar odio tincidunt ac. Nam interdum pellentesque bibendum. Aenean laoreet hendrerit sapien, ut mattis mi imperdiet in. Aenean pretium consectetur nunc, sit amet dapibus leo interdum tempor. Cras sodales accumsan dui non pellentesque.
+
+Donec lacus mauris, commodo at vehicula vel, aliquam vel leo. Phasellus scelerisque lacus eget purus faucibus, ac lobortis dolor interdum. Nulla pharetra ante eget pharetra lobortis. Etiam eget nisl risus. Nunc ipsum eros, convallis ut enim nec, aliquam rutrum augue. Ut quis iaculis est, quis lobortis magna. Nulla elementum porta suscipit. Nullam scelerisque mattis sagittis. Donec tempus auctor felis id egestas. Donec a orci metus. Praesent et risus neque. Pellentesque et est erat. Duis vitae eros nunc. Ut at ante lobortis, convallis enim in, sagittis tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. </string>
         </property>
        </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Find:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="findEdit"/>
       </item>
      </layout>
     </widget>
@@ -52,7 +91,20 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QPlainTextEdit" name="script"/>
+       <widget class="QPlainTextEdit" name="script">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>400</width>
+          <height>0</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QToolButton" name="runButton">
@@ -79,6 +131,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>editor</tabstop>
+  <tabstop>script</tabstop>
+  <tabstop>findEdit</tabstop>
+  <tabstop>findNextButton</tabstop>
+  <tabstop>runButton</tabstop>
+  <tabstop>debugView</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
