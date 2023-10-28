@@ -13,10 +13,18 @@ LoggerDisabler::~LoggerDisabler()
     LoggerObject::m_canLog = m_originalCanLog;
 }
 
-LoggerObject::~LoggerObject() {}
+LoggerObject::LoggerObject()
+    : m_firstLogger(m_canLog)
+{
+}
 
-LoggerObject::LoggerObject() {}
+LoggerObject::~LoggerObject()
+{
+    if (m_firstLogger)
+        m_canLog = true;
+}
 
 void LoggerObject::log(QString &&string) {
     qDebug() << string;
+    m_canLog = false;
 }

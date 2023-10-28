@@ -67,6 +67,7 @@ private:
     void log(QString &&string);
 
     inline static bool m_canLog = true;
+    bool m_firstLogger = false;
 
     inline static HistoryModel *m_model = nullptr;
 };
