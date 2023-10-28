@@ -74,14 +74,14 @@ private:
         Arg returnArg;
     };
 
-    void logData(const QString &name) { addData(LogData {name, {}}); }
+    void logData(const QString &name) { addData(LogData {name, {}}, false); }
     template <typename... Ts>
-    void logData(const QString &name, Ts... params)
+    void logData(const QString &name, bool merge, Ts... params)
     {
         LogData data;
         data.name = name;
         fillLogData(data, params...);
-        addData(std::move(data));
+        addData(std::move(data), merge);
     }
 
     template <typename T>
@@ -104,7 +104,7 @@ private:
         fillLogData(data, params...);
     }
 
-    void addData(LogData &&data);
+    void addData(LogData &&data, bool merge);
 
     std::vector<LogData> m_data;
     inline static QSet<QString> m_properties = {};

@@ -81,37 +81,37 @@ void TextDocument::gotoEndOfWord()
 
 void TextDocument::gotoNextLine(int count)
 {
-    LOG("TextDocument::gotoNextLine", count);
+    LOG_AND_MERGE("TextDocument::gotoNextLine", count);
     movePosition(QTextCursor::Down, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoPreviousLine(int count)
 {
-    LOG("TextDocument::gotoPreviousLine", count);
+    LOG_AND_MERGE("TextDocument::gotoPreviousLine", count);
     movePosition(QTextCursor::Up, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoPreviousChar(int count)
 {
-    LOG("TextDocument::gotoPreviousChar", count);
+    LOG_AND_MERGE("TextDocument::gotoPreviousChar", count);
     movePosition(QTextCursor::PreviousCharacter, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoNextChar(int count)
 {
-    LOG("TextDocument::gotoNextChar", count);
+    LOG_AND_MERGE("TextDocument::gotoNextChar", count);
     movePosition(QTextCursor::NextCharacter, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoPreviousWord(int count)
 {
-    LOG("TextDocument::gotoPreviousWord", count);
+    LOG_AND_MERGE("TextDocument::gotoPreviousWord", count);
     movePosition(QTextCursor::PreviousWord, QTextCursor::MoveAnchor, count);
 }
 
 void TextDocument::gotoNextWord(int count)
 {
-    LOG("TextDocument::gotoNextWord", count);
+    LOG_AND_MERGE("TextDocument::gotoNextWord", count);
     movePosition(QTextCursor::NextWord, QTextCursor::MoveAnchor, count);
 }
 
@@ -167,43 +167,43 @@ void TextDocument::selectEndOfWord()
 
 void TextDocument::selectNextLine(int count)
 {
-    LOG("TextDocument::selectNextLine", count);
+    LOG_AND_MERGE("TextDocument::selectNextLine", count);
     movePosition(QTextCursor::Down, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectPreviousLine(int count)
 {
-    LOG("TextDocument::selectPreviousLine", count);
+    LOG_AND_MERGE("TextDocument::selectPreviousLine", count);
     movePosition(QTextCursor::Up, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectPreviousChar(int count)
 {
-    LOG("TextDocument::selectPreviousChar", count);
+    LOG_AND_MERGE("TextDocument::selectPreviousChar", count);
     movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectNextChar(int count)
 {
-    LOG("TextDocument::selectNextChar", count);
+    LOG_AND_MERGE("TextDocument::selectNextChar", count);
     movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectPreviousWord(int count)
 {
-    LOG("TextDocument::selectPreviousWord", count);
+    LOG_AND_MERGE("TextDocument::selectPreviousWord", count);
     movePosition(QTextCursor::PreviousWord, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::selectNextWord(int count)
 {
-    LOG("TextDocument::selectNextWord", count);
+    LOG_AND_MERGE("TextDocument::selectNextWord", count);
     movePosition(QTextCursor::NextWord, QTextCursor::KeepAnchor, count);
 }
 
 void TextDocument::remove(int length)
 {
-    LOG("TextDocument::remove", length);
+    LOG_AND_MERGE("TextDocument::remove", length);
     QTextCursor cursor = m_document->textCursor();
     cursor.setPosition(cursor.position() + length, QTextCursor::KeepAnchor);
     cursor.removeSelectedText();
@@ -212,7 +212,7 @@ void TextDocument::remove(int length)
 
 void TextDocument::insert(const QString &text)
 {
-    LOG("TextDocument::insert", text);
+    LOG_AND_MERGE("TextDocument::insert", text);
     m_document->insertPlainText(text);
 }
 
@@ -262,7 +262,7 @@ void TextDocument::deleteStartOfWord()
 
 void TextDocument::deletePreviousCharacter(int count)
 {
-    LOG("TextDocument::deletePreviousCharacter", count);
+    LOG_AND_MERGE("TextDocument::deletePreviousCharacter", count);
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::PreviousCharacter, QTextCursor::KeepAnchor, count);
     cursor.removeSelectedText();
@@ -271,7 +271,7 @@ void TextDocument::deletePreviousCharacter(int count)
 
 void TextDocument::deleteNextCharacter(int count)
 {
-    LOG("TextDocument::deleteNextCharacter", count);
+    LOG_AND_MERGE("TextDocument::deleteNextCharacter", count);
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, count);
     cursor.removeSelectedText();

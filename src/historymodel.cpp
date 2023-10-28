@@ -143,10 +143,34 @@ QString HistoryModel::createScript(const QModelIndex &startIndex, const QModelIn
     return createScript(startIndex.row(), endIndex.row());
 }
 
-void HistoryModel::addData(LogData &&data)
+void HistoryModel::addData(LogData &&data, bool merge)
 {
-    beginInsertRows({}, static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
-    m_data.push_back(std::move(data));
-    endInsertRows();
-    return;
+    if (!merge || m_data.empty() || m_data.back().name != data.name) {
+        beginInsertRows({}, static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
+        m_data.push_back(std::move(data));
+        endInsertRows();
+        return;
+    }
+
+    auto &lastData = m_data.back();
+    // Add parameters together
+    for (size_t i = 0; i < data.params.size(); ++i) {
+        const auto &param = data.params[i];
+        auto &lastParam = lastData.params[i];
+        switch (static_cast<QMetaType::Type>(param.value.typeId())) {
+        case QMetaType::Int:
+            lastParam.value = lastParam.value.toInt() + param.value.toInt();
+            break;
+        case QMetaType::QString:
+            lastParam.value = lastParam.value.toString() + param.value.toString();
+            break;
+        case QMetaType::QStringList:
+            lastParam.value = lastParam.value.toStringList() + param.value.toStringList();
+            break;
+        default:
+            Q_UNREACHABLE();
+        }
+    }
+    auto lastIndex = index(static_cast<int>(m_data.size()) - 1, ParamCol);
+    emit dataChanged(lastIndex, lastIndex);
 }

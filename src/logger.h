@@ -8,7 +8,13 @@
 /**
  * Log a method, with all its parameters.
  */
-#define LOG(name, ...) LoggerObject __loggerObject(name, ##__VA_ARGS__)
+#define LOG(name, ...) LoggerObject __loggerObject(name, false, ##__VA_ARGS__)
+
+/**
+ * Log a method, with all its parameters. If the previous log is also the same method, it will be merged into one
+ * operation
+ */
+#define LOG_AND_MERGE(name, ...) LoggerObject __loggerObject(name, true, ##__VA_ARGS__)
 
 /**
  * Create a parameter, the name will depend on the type
@@ -63,13 +69,13 @@ public:
     }
 
     template <typename... Ts>
-    explicit LoggerObject(QString name, Ts... params)
+    explicit LoggerObject(QString name, bool merge, Ts... params)
         : LoggerObject()
     {
         if (!m_canLog)
             return;
         if (m_model)
-            m_model->logData(name, params...);
+            m_model->logData(name, merge, params...);
 
         QStringList paramList;
         (paramList.push_back(valueToString(params)), ...);
