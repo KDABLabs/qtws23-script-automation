@@ -100,7 +100,7 @@ Donec lacus mauris, commodo at vehicula vel, aliquam vel leo. Phasellus sceleris
         </property>
         <property name="minimumSize">
          <size>
-          <width>400</width>
+          <width>500</width>
           <height>0</height>
          </size>
         </property>

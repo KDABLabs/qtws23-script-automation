@@ -1,9 +1,9 @@
 #include "widget.h"
 #include "historymodel.h"
+#include "logger.h"
 #include "scriptrunner.h"
 #include "textdocument.h"
 #include "ui_widget.h"
-
 
 #include <QShortcut>
 
@@ -61,6 +61,8 @@ void Widget::run()
 void Widget::openFind()
 {
     ui->findWidget->setVisible(true);
+
+    LoggerDisabler ld;
 
     m_defaultFindText = m_document->selectedText();
     m_defaultFindIsSelection = true;
