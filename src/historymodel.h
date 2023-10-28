@@ -19,6 +19,13 @@ public:
 
     void clear();
 
+    /**
+     * @brief Create a script from 2 points in the history
+     * The script is created using 2 rows in the history model. It will create a javascript script.
+     */
+    QString createScript(int start, int end);
+    QString createScript(const QModelIndex &startIndex, const QModelIndex &endIndex);
+
 private:
     friend class LoggerObject;
 

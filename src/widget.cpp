@@ -26,6 +26,17 @@ Widget::Widget(QWidget *parent)
 
     auto historyModel = new HistoryModel(this);
     ui->historyView->setModel(historyModel);
+    ui->historyView->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
+    auto showLast = [this, historyModel]() {
+        ui->historyView->scrollTo(historyModel->index(historyModel->rowCount() - 1, 0));
+    };
+    connect(historyModel, &QAbstractItemModel::rowsInserted, this, showLast);
+
+    auto createScriptFromSelection = [this, historyModel]() {
+        auto selection = ui->historyView->selectionModel()->selectedIndexes();
+        ui->script->setPlainText(historyModel->createScript(selection.first(), selection.last()));
+    };
+    connect(ui->createButton, &QToolButton::clicked, this, createScriptFromSelection);
 
     ui->findWidget->hide();
     ui->editor->setFocus();

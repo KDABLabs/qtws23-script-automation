@@ -85,6 +85,42 @@ void HistoryModel::clear()
     endResetModel();
 }
 
+QString HistoryModel::createScript(int start, int end)
+{
+    const auto tab = QString('\t');
+
+    std::tie(start, end) = std::minmax(start, end);
+    Q_ASSERT(start >= 0 && start <= end && end < static_cast<int>(m_data.size()));
+
+    QString scriptText = "// Description of the script\n\n";
+
+    QHash<QString, QVariant> returnVariables;
+
+    for (int row = start; row <= end; ++row) {
+        const auto &data = m_data.at(row);
+        QString apiCall = data.name;
+        apiCall.replace("::", ".");
+
+        // Pass the parameters
+        QStringList paramStrings;
+        for (const auto &param : data.params) {
+            QString text = variantToString(param.value);
+            paramStrings.push_back(text);
+        }
+
+        scriptText += QString("%1(%2)\n").arg(apiCall, paramStrings.join(", "));
+    }
+
+    return scriptText;
+}
+
+QString HistoryModel::createScript(const QModelIndex &startIndex, const QModelIndex &endIndex)
+{
+    Q_ASSERT(checkIndex(startIndex, CheckIndexOption::IndexIsValid)
+             && checkIndex(endIndex, CheckIndexOption::IndexIsValid));
+    return createScript(startIndex.row(), endIndex.row());
+}
+
 void HistoryModel::addData(LogData &&data)
 {
     beginInsertRows({}, static_cast<int>(m_data.size()), static_cast<int>(m_data.size()));
