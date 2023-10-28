@@ -9,6 +9,8 @@ TextDocument::TextDocument(QPlainTextEdit *textEdit, QObject *parent)
     : QObject(parent)
     , m_document(textEdit)
 {
+    LOG_REGISTER(TextDocument);
+
     Q_ASSERT(textEdit);
     connect(m_document, &QPlainTextEdit::selectionChanged, this, &TextDocument::selectionChanged);
     connect(m_document, &QPlainTextEdit::cursorPositionChanged, this, &TextDocument::positionChanged);

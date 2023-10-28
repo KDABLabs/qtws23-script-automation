@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QAbstractTableModel>
+#include <QSet>
 
 struct LoggerArgBase
 {
@@ -46,6 +47,16 @@ public:
      */
     QString createScript(int start, int end);
     QString createScript(const QModelIndex &startIndex, const QModelIndex &endIndex);
+
+    template <typename Object>
+    static void addProperties()
+    {
+        for (int i = 0; i < Object::staticMetaObject.propertyCount(); ++i) {
+            QString className = Object::staticMetaObject.className();
+            m_properties.insert(
+                QString("%1::%2").arg(className.split("::").last()).arg(Object::staticMetaObject.property(i).name()));
+        }
+    }
 
 private:
     friend class LoggerObject;
@@ -96,4 +107,5 @@ private:
     void addData(LogData &&data);
 
     std::vector<LogData> m_data;
+    inline static QSet<QString> m_properties = {};
 };

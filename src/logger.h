@@ -26,6 +26,11 @@
     } while (false)
 
 /**
+ * Register all properties for an object
+ */
+#define LOG_REGISTER(Type) HistoryModel::addProperties<Type>()
+
+/**
  * @brief The LoggerDisabler class is a RAII class to temporary disable logging
  */
 class LoggerDisabler

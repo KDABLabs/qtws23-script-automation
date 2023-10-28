@@ -100,6 +100,7 @@ QString HistoryModel::createScript(int start, int end)
     for (int row = start; row <= end; ++row) {
         const auto &data = m_data.at(row);
         QString apiCall = data.name;
+        const bool isProperty = m_properties.contains(apiCall);
         apiCall.replace("::", ".");
 
         // Set the return value
@@ -122,7 +123,14 @@ QString HistoryModel::createScript(int start, int end)
             paramStrings.push_back(text);
         }
 
-        scriptText += returnValue + QString("%1(%2)\n").arg(apiCall, paramStrings.join(", "));
+        if (isProperty) {
+            if (paramStrings.isEmpty())
+                scriptText += returnValue + apiCall + '\n';
+            else
+                scriptText += returnValue + QString("%1 = %2\n").arg(apiCall, paramStrings.first());
+        } else {
+            scriptText += returnValue + QString("%1(%2)\n").arg(apiCall, paramStrings.join(", "));
+        }
     }
 
     return scriptText;
