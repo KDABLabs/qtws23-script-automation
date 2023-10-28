@@ -1,7 +1,9 @@
 #include "widget.h"
-#include "ui_widget.h"
-#include "textdocument.h"
+#include "historymodel.h"
 #include "scriptrunner.h"
+#include "textdocument.h"
+#include "ui_widget.h"
+
 
 #include <QShortcut>
 
@@ -21,6 +23,9 @@ Widget::Widget(QWidget *parent)
     connect(openFindShortcut, &QShortcut::activated, this, &Widget::openFind);
     auto closeFindShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
     connect(closeFindShortcut, &QShortcut::activated, this, &Widget::closeFind);
+
+    auto historyModel = new HistoryModel(this);
+    ui->historyView->setModel(historyModel);
 
     ui->findWidget->hide();
     ui->editor->setFocus();
