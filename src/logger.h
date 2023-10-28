@@ -11,6 +11,21 @@
 #define LOG(name, ...) LoggerObject __loggerObject(name, ##__VA_ARGS__)
 
 /**
+ * Create a parameter, the name will depend on the type
+ */
+#define LOG_ARG(name, value) LoggerArg(name, value)
+
+/**
+ * Save the returned value, the name will depend on the type
+ */
+#define LOG_RETURN(name, value)                                                                                        \
+    do {                                                                                                               \
+        const auto &__value = value;                                                                                   \
+        __loggerObject.setReturnValue(name, __value);                                                                  \
+        return __value;                                                                                                \
+    } while (false)
+
+/**
  * @brief The LoggerDisabler class is a RAII class to temporary disable logging
  */
 class LoggerDisabler
@@ -58,6 +73,13 @@ public:
     }
 
     ~LoggerObject();
+
+    template <typename T>
+    void setReturnValue(QString &&name, const T &value)
+    {
+        if (m_firstLogger && m_model)
+            m_model->setReturnValue(std::move(name), value);
+    }
 
 private:
     friend class HistoryModel;

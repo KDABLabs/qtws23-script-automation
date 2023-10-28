@@ -30,7 +30,7 @@ QString TextDocument::currentWord() const
     QTextCursor cursor = m_document->textCursor();
     cursor.movePosition(QTextCursor::StartOfWord);
     cursor.movePosition(QTextCursor::EndOfWord, QTextCursor::KeepAnchor);
-    return cursor.selectedText();
+    LOG_RETURN("text", cursor.selectedText());
 }
 
 QString TextDocument::selectedText() const
@@ -38,7 +38,7 @@ QString TextDocument::selectedText() const
     LOG("TextDocument::selectedText");
     // Replace \u2029 with \n
     const QString text = m_document->textCursor().selectedText().replace(QChar(8233), "\n");
-    return text;
+    LOG_RETURN("text", text);
 }
 
 bool TextDocument::hasSelection() const
@@ -278,7 +278,7 @@ void TextDocument::deleteNextCharacter(int count)
 
 bool TextDocument::find(const QString &text)
 {
-    LOG("TextDocument::find", text);
+    LOG("TextDocument::find", LOG_ARG("text", text));
     return m_document->find(text);
 }
 

@@ -2,6 +2,27 @@
 
 #include <QAbstractTableModel>
 
+struct LoggerArgBase
+{
+};
+/**
+ * @brief Argument for a call
+ * The argName will be matched to an existing returned value from a previous method, when recording a script.
+ * If empty, or not set by a previous method, the value will be used.
+ */
+template <typename T>
+struct LoggerArg : public LoggerArgBase
+{
+    LoggerArg(QString &&name, T v)
+        : argName(name)
+        , value(v)
+    {
+    }
+    QString argName;
+    T value;
+    QString toString() const { return valueToString(value); }
+};
+
 class HistoryModel : public QAbstractTableModel
 {
     Q_OBJECT
@@ -31,12 +52,15 @@ private:
 
     struct Arg
     {
+        QString name;
         QVariant value;
+        bool isEmpty() const { return name.isEmpty(); }
     };
     struct LogData
     {
         QString name;
         std::vector<Arg> params;
+        Arg returnArg;
     };
 
     void logData(const QString &name) { addData(LogData {name, {}}); }
@@ -49,12 +73,22 @@ private:
         addData(std::move(data));
     }
 
+    template <typename T>
+    void setReturnValue(QString &&name, const T &value)
+    {
+        m_data.back().returnArg.name = std::move(name);
+        m_data.back().returnArg.value = QVariant::fromValue(value);
+    }
+
     void fillLogData(LogData &) {};
 
     template <typename T, typename... Ts>
     void fillLogData(LogData &data, T param, Ts... params)
     {
-        data.params.push_back({QVariant::fromValue(param)});
+        if constexpr (std::derived_from<T, LoggerArgBase>)
+            data.params.push_back({param.argName, QVariant::fromValue(param.value)});
+        else
+            data.params.push_back({"", QVariant::fromValue(param)});
 
         fillLogData(data, params...);
     }

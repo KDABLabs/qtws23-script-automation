@@ -55,9 +55,12 @@ QVariant HistoryModel::data(const QModelIndex &index, int role) const
             QStringList paramStrings;
             for (const auto &param : params) {
                 QString text = variantToString(param.value);
+                if (!param.name.isEmpty())
+                    text.prepend(QString("%1: ").arg(param.name));
                 paramStrings.push_back(text);
             }
-            return paramStrings.join(", ");
+            const QString returnVariable = m_data.at(index.row()).returnArg.name;
+            return paramStrings.join(", ") + (returnVariable.isEmpty() ? "" : (" => " + returnVariable));
         }
         }
     }
@@ -87,8 +90,6 @@ void HistoryModel::clear()
 
 QString HistoryModel::createScript(int start, int end)
 {
-    const auto tab = QString('\t');
-
     std::tie(start, end) = std::minmax(start, end);
     Q_ASSERT(start >= 0 && start <= end && end < static_cast<int>(m_data.size()));
 
@@ -101,14 +102,27 @@ QString HistoryModel::createScript(int start, int end)
         QString apiCall = data.name;
         apiCall.replace("::", ".");
 
+        // Set the return value
+        QString returnValue;
+        if (!data.returnArg.isEmpty()) {
+            const auto &name = data.returnArg.name;
+            returnValue = (returnVariables.contains(name) ? "" : "let ") + name + " = ";
+            returnVariables[name] = data.returnArg.value;
+        }
+
         // Pass the parameters
         QStringList paramStrings;
         for (const auto &param : data.params) {
+            if (!param.name.isEmpty() && returnVariables.value(param.name) == param.value) {
+                paramStrings.push_back(param.name);
+                continue;
+            }
+
             QString text = variantToString(param.value);
             paramStrings.push_back(text);
         }
 
-        scriptText += QString("%1(%2)\n").arg(apiCall, paramStrings.join(", "));
+        scriptText += returnValue + QString("%1(%2)\n").arg(apiCall, paramStrings.join(", "));
     }
 
     return scriptText;
