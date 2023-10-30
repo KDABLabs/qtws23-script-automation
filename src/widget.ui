@@ -90,6 +90,13 @@ Donec lacus mauris, commodo at vehicula vel, aliquam vel leo. Phasellus sceleris
       <string>Script</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="0">
+       <widget class="QToolButton" name="runButton">
+        <property name="text">
+         <string>Run</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QPlainTextEdit" name="script">
         <property name="sizePolicy">
@@ -106,19 +113,39 @@ Donec lacus mauris, commodo at vehicula vel, aliquam vel leo. Phasellus sceleris
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QToolButton" name="runButton">
-        <property name="text">
-         <string>Run</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout_3">
-     <item row="0" column="0">
+     <item row="1" column="0">
+      <widget class="QToolButton" name="createButton">
+       <property name="text">
+        <string>Create script from selection</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QToolButton" name="cleanButton">
+       <property name="text">
+        <string>Clean all</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="0" colspan="3">
       <widget class="QTreeView" name="historyView">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
@@ -140,27 +167,20 @@ Donec lacus mauris, commodo at vehicula vel, aliquam vel leo. Phasellus sceleris
        </property>
       </widget>
      </item>
-     <item row="0" column="1" rowspan="2">
-      <widget class="QPlainTextEdit" name="debugView">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="readOnly">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QToolButton" name="createButton">
-       <property name="text">
-        <string>Create script from selection</string>
-       </property>
-      </widget>
-     </item>
     </layout>
+   </item>
+   <item row="1" column="1">
+    <widget class="QPlainTextEdit" name="debugView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

@@ -43,6 +43,12 @@ Widget::Widget(QWidget *parent)
     };
     connect(ui->createButton, &QToolButton::clicked, this, createScriptFromSelection);
 
+    auto cleanAll = [this, historyModel]() {
+        ui->debugView->clear();
+        historyModel->clear();
+    };
+    connect(ui->cleanButton, &QToolButton::clicked, this, cleanAll);
+
     ui->findWidget->hide();
     ui->editor->setFocus();
 }
