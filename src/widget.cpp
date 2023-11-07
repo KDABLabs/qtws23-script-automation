@@ -19,6 +19,11 @@ Widget::Widget(QWidget *parent)
     connect(ui->runButton, &QToolButton::clicked, this, &Widget::run);
     connect(ui->findNextButton, &QToolButton::clicked, this, &Widget::find);
 
+    auto fooShortcut = new QShortcut(QKeySequence("Alt+F"), this);
+    connect(fooShortcut, &QShortcut::activated, m_document.get(), &TextDocument::foo);
+    auto barShortcut = new QShortcut(QKeySequence("Alt+B"), this);
+    connect(barShortcut, &QShortcut::activated, m_document.get(), &TextDocument::bar);
+
     auto openFindShortcut = new QShortcut(QKeySequence("Ctrl+F"), this);
     connect(openFindShortcut, &QShortcut::activated, this, &Widget::openFind);
     auto closeFindShortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);

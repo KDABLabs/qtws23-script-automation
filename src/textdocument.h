@@ -73,6 +73,9 @@ public slots:
 
     bool find(const QString &text);
 
+    void foo();
+    void bar();
+
 private:
     void movePosition(QTextCursor::MoveOperation operation, QTextCursor::MoveMode mode = QTextCursor::MoveAnchor,
                       int count = 1);

@@ -282,6 +282,17 @@ bool TextDocument::find(const QString &text)
     return m_document->find(text);
 }
 
+void TextDocument::foo()
+{
+    LOG("TextDocument::foo");
+}
+
+void TextDocument::bar()
+{
+    LOG("TextDocument::bar");
+    foo();
+}
+
 bool TextDocument::eventFilter(QObject *watched, QEvent *event)
 {
     Q_ASSERT(watched == m_document);
